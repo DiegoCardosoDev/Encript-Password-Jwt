@@ -1,6 +1,6 @@
 package com.diego.criptopassword.data;
 
-import com.diego.criptopassword.model.User;
+import com.diego.criptopassword.model.UserModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public class DetaiilsUserData implements UserDetails {
 
-    private final Optional<User> user;
+    private final Optional<UserModel> user;
 
-    public DetaiilsUserData(Optional<User> user) {
+    public DetaiilsUserData(Optional<UserModel> user) {
         this.user = user;
     }
 
@@ -23,12 +23,12 @@ public class DetaiilsUserData implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.orElse(new User()).getPassword();
+        return user.orElse(new UserModel()).getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.orElse(new User()).getName();
+        return user.orElse(new UserModel()).getName();
     }
 
     @Override

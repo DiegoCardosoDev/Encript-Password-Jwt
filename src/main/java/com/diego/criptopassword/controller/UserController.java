@@ -1,6 +1,6 @@
 package com.diego.criptopassword.controller;
 
-import com.diego.criptopassword.model.User;
+import com.diego.criptopassword.model.UserModel;
 import com.diego.criptopassword.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class UserController {
     }
 
     @GetMapping("list")
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserModel>> findAll(){
         return ResponseEntity.ok(userRepository.findAll());
     }
 
     @PostMapping("save")
-    public ResponseEntity<User> save(@RequestBody User user){
+    public ResponseEntity<UserModel> save(@RequestBody UserModel user){
         user.setPassword(encoder.encode(user.getPassword()));
         return ResponseEntity.ok(userRepository.save(user));
     }
@@ -36,13 +36,13 @@ public class UserController {
     @GetMapping("/validpassword")
     public ResponseEntity<Boolean> validPassword(@RequestParam String login, @RequestParam String password){
 
-        Optional<User> optionalUser = userRepository.findByLogin(login);
+        Optional<UserModel> optionalUser = userRepository.findByLogin(login);
 
         if (optionalUser.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
         }
 
-        User  user = optionalUser.get();
+        UserModel user = optionalUser.get();
         boolean valid = encoder.matches(password, user.getPassword());
 
         HttpStatus status = (valid) ?  HttpStatus.OK : HttpStatus.UNAUTHORIZED;
