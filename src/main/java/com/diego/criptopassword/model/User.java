@@ -1,9 +1,7 @@
 package com.diego.criptopassword.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
-
 
 @Data
 @Entity
