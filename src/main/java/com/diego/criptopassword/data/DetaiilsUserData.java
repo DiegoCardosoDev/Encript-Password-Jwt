@@ -12,13 +12,15 @@ public class DetaiilsUserData implements UserDetails {
 
     private final Optional<UserModel> user;
 
+
     public DetaiilsUserData(Optional<UserModel> user) {
         this.user = user;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-            return new ArrayList<>();
+        return new ArrayList<>();
     }
 
     @Override
@@ -28,7 +30,7 @@ public class DetaiilsUserData implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.orElse(new UserModel()).getName();
+        return user.orElse(new UserModel()).getLogin();
     }
 
     @Override
@@ -43,7 +45,7 @@ public class DetaiilsUserData implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

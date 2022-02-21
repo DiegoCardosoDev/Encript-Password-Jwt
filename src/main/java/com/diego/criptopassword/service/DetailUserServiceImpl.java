@@ -13,18 +13,22 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 
-@AllArgsConstructor
+
 @Component
 public class DetailUserServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
+
+    public DetailUserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserModel> userModel = userRepository.findByLogin(username);
 
         if (userModel.isEmpty()) {
-            throw new UsernameNotFoundException("usuario" + "[" + userModel + "]" + " não encrotado");
+            throw new UsernameNotFoundException("usuario" + "[" + userModel + "]" + " não encontrado");
         }
         return new DetaiilsUserData(userModel);
     }

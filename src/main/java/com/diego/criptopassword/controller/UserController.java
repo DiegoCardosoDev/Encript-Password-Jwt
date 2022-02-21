@@ -48,4 +48,10 @@ public class UserController {
         HttpStatus status = (valid) ?  HttpStatus.OK : HttpStatus.UNAUTHORIZED;
         return  ResponseEntity.status(status).body(valid);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        userRepository.deleteById(id);
+        return  ResponseEntity.noContent().build();
+    }
 }

@@ -18,22 +18,23 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class JwtConfig extends WebSecurityConfigurerAdapter {
 
         private final DetailUserServiceImpl userService;
-        private  final PasswordEncoder encoder;
+        private  final PasswordEncoder passwordEncoder;
 
-
-    public JwtConfig(DetailUserServiceImpl userService, PasswordEncoder encoder) {
+    public JwtConfig(DetailUserServiceImpl userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.encoder = encoder;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(encoder);
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeHttpRequests()
+        http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -41,6 +42,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JWTValidatorFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
+
 
     @Bean
     CorsConfigurationSource corsConfiguration(){
